@@ -12,13 +12,13 @@ public class Main {
 
 		Scanner sc = new Scanner(System.in);
 		int lastArticleId = 0;
-		List<Article> articles = new ArrayList<>(); // 글생성시 보관하는 창고 역할 list 생성
+		List<Article> articles = new ArrayList<>();
 
 		while (true) {
 
 			System.out.printf("명령어) ");
 
-			String command = sc.nextLine().trim(); // 빈칸 적용을 없애주는 함수 추가
+			String command = sc.nextLine().trim();
 			
 			if (command.length() == 0) {
 				System.out.println("명령어를 입력해 주세요.");
@@ -36,13 +36,13 @@ public class Main {
 				System.out.printf("내용 : ");
 				String body = sc.nextLine();
 				
-				Article article = new Article(id,title,body); // 글 생성시 article 을 생성하고 인자 3가지를 불러온다.
-				articles.add(article); //article에 추가한다.
+				Article article = new Article(id,title,body);
+				articles.add(article);
 				
 				System.out.printf(id + "번 글이 생성되었습니다.\n");
 				
 			} else if (command.equals("article list")) {
-				if(articles.size() == 0) { // 글이 저장되는 articles에 글이 있다 없다에 따라 게시글이 있다 없다를 표현
+				if(articles.size() == 0) {
 					System.out.println("게시글이 없습니다.");
 					continue;
 				}else {
