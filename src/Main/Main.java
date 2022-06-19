@@ -55,7 +55,25 @@ public class Main {
 					
 				}
 				
-			} else {
+			}
+			// equals 메서드에서 startsWith 메서드로 방식 변경(article detail 번호로 시작해서 검색하도록 하기 위해서)
+			// 상세보기는 명령어 + 번호가 들어가기 때문에. 번호 전까지는 찾아서 번호를 찾아서 검색할 수 있도록 코드 구현
+			// split 문자열 쪼개는 함수 추가 구현 (3등분 : article / detail / 1)
+			else if(command.startsWith("article detail")) { // 글 상세페지 보여주기 구현
+				
+				String[] commandBits = command.split(" "); // 내가 입력한 무언가를 " 공백 "로 쪼갠다.
+				// 오류 : 타입 미스매치 / 받아오려는 문자열은 3개이기에 배열로 추가
+				// 인덱스 부여 가능
+				// commandBits[0]; article
+				// commandBits[1]; detail
+				// commandBits[2]; ~~
+				// String id = commandBits[2]; // commandBits 는 위에 String로 받아야 하기에 정수화를 시켜서 int 화 하기
+				int id = Integer.parseInt(commandBits[2]); // 문자를 int에 넣는 방법 "2" -> 2 로 바꾸는 코드
+				// 강사 동영상 작업 5, 25분 진행중
+				System.out.printf("%d번 게시물 존재하지 않습니다.\n", id);
+			}
+			
+			else {
 				System.out.println("존재하지 않는 명령어입니다.");
 			}
 		}
