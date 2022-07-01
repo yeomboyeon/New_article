@@ -10,7 +10,7 @@ public class Main {
 
 		Scanner sc = new Scanner(System.in);
 		int lastArticleId = 0;
-		List<Article> articles = new ArrayList<>(); // 코드가 저장할 수 있도록 배열 추가. articles 저장소 구현.
+		List<Article> articles = new ArrayList<>();
 
 		while (true) {
 
@@ -34,61 +34,45 @@ public class Main {
 				System.out.printf("내용 : ");
 				String body = sc.nextLine();
 
-				Article article = new Article(id, title, body); // 위 정보를 조립하고 저장한다. // 객체화 // Article 클래스 및 메서드 추가 //
-				articles.add(article); // 배열에 추가 저장하는 코드 구현. // articles 저장소에 add 추가를 article로 조립된 내용을.
+				Article article = new Article(id, title, body);
+				articles.add(article);
 
 				System.out.printf(id + "번 글이 생성되었습니다.\n");
 
 			} else if (command.equals("article list")) {
-				if (articles.size() == 0) { // articles 저장소에 사이즈 글이 없다면 실행되도록 구현.
+				if (articles.size() == 0) {
 					System.out.println("게시글이 없습니다.");
-					continue; // 바로 위로 다시 실행되도록 작성.
+					continue;
 				}
 
-				System.out.println("번호 | 제목 "); // 글 번호와 제목이 리스트에 나오도록 작성
+				System.out.println("번호 | 제목 ");
 
-				for (int i = articles.size() - 1; i >= 0; i--) { // 입력된 글 번호를 저장하고 최신 글이 먼저 나오도록 코드 구현
-//					for(int i = 0; i < articles.size(); i++) { // 글 생성하고 리스트에 과거글이 먼저 나오는 코드임. 					
-					Article article = articles.get(i); // article에 articles 저장소에 있는 요소를 get 가져온다.
+				for (int i = articles.size() - 1; i >= 0; i--) {
+					Article article = articles.get(i);
 
-					System.out.printf("%d | %s\n", article.id, article.title); // 글 번호와 제목이 출력되도록 작성
+					System.out.printf("%d   | %s\n", article.id, article.title);
 				}
-			}
-			// equals 메서드에서 startsWith 메서드로 방식 변경(article detail 번호로 시작해서 검색하도록 하기 위해서)
-			// 상세보기는 명령어 + 번호가 들어가기 때문에. 번호 전까지는 찾아서 번호를 찾아서 검색할 수 있도록 코드 구현
-			// split 문자열 쪼개는 함수 추가 구현 (3등분 : article / detail / 1)
-			else if (command.startsWith("article detail")) { // 글 상세페이지 보여주기 구현
+			} else if (command.startsWith("article detail")) {
 
-				String[] commandBits = command.split(" "); // 내가 입력한 무언가를 " 공백 "로 쪼갠다.
-				// 오류 : 타입 미스매치 / 받아오려는 문자열은 3개이기에 배열로 추가
-				// 인덱스 부여 가능
-				// commandBits[0]; article
-				// commandBits[1]; detail
-				// commandBits[2]; ~~
-				// String id = commandBits[2]; // commandBits 는 위에 String로 받아야 하기에 정수화를 시켜서 int
-				// 화 하기
-				int id = Integer.parseInt(commandBits[2]); // 문자를 int에 넣는 방법 "2" -> 2 로 바꾸는 코드
+				String[] commandBits = command.split(" ");
 
-				// Boolean found = false; // 가짜 데이터 생성(추후 삭제)
-				Article foundArticle = null; // article에 없다면 빈칸
+				int id = Integer.parseInt(commandBits[2]);
 
-				for (int i = 0; i < articles.size(); i++) { // 검색하려면 article 저장소에 있는 걸 모두 검색을 해봐야 한다. 어디있는지 모르기 때문에
-					Article article = articles.get(i); // article에서 인덱스를 통해서 자료를 가져오겠다.
+				Article foundArticle = null;
 
-					if (article.id == id) { // article에 있는 저장되어 있는 id가 검색한 id와 같다면
-						// found = true; // 찾았다면 true로 출력(추후 삭제)
-						foundArticle = article; // 찾았다면 article에 저장
-						break; // 찾았다면 반복문 종료
+				for (int i = 0; i < articles.size(); i++) {
+					Article article = articles.get(i);
+
+					if (article.id == id) {
+						foundArticle = article;
+						break;
 					}
 				}
-				if (foundArticle == null) { // 아래 found를 지우고 이 코드로 변경(리팩토링)
-					// if (found == false) { // 위 반복문에서 true가 되면 실행하지 않음(추후 삭제) // found가 false한것과
-					// foundArticle 값이 null이나 같은 맥락.
+				if (foundArticle == null) {
 					System.out.printf("%d번 게시물 존재하지 않습니다.\n", id);
 					continue;
 
-				} else { // 위 반복문에서 실행되지 않으면 여기에서 실행
-					// System.out.printf("%d번 게시물이 존재합니다.\n", id); // 아래 출력내용 추가했으니 이제는 삭제
+				} else {
 					System.out.println("-----------------------------");
 					System.out.printf("번호 : %d\n", foundArticle.id);
 					System.out.printf("날짜 : 2022-06-22, 12:12:12\n"); // 미구현 날짜
@@ -96,7 +80,38 @@ public class Main {
 					System.out.printf("내용 : %s\n", foundArticle.body);
 					System.out.println("-----------------------------");
 				}
-			} else {
+			} else if (command.startsWith("article delete")) { // 삭제 기능 구현
+
+				String[] commandBits = command.split(" ");
+
+				int id = Integer.parseInt(commandBits[2]);
+
+//				Article foundArticle = null; // 여건 이제 필요없음
+				int foundIndex = -1; // 인덱스보다 -1
+
+				for (int i = 0; i < articles.size(); i++) {
+					Article article = articles.get(i);
+
+					if (article.id == id) {
+//						foundArticle = article; // 요건 이제 필요없음
+						foundIndex = i; // 인덱스를 i에 덮어쓰기
+						break;
+					}
+				}
+				if (foundIndex == -1) { // 여기도 -1과 같다면
+					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
+					continue;
+				}
+				articles.remove(foundIndex); // 인덱스를 삭제하기
+				// articles.remove(id - 1); // 게시물 삭제 함수, 글번호와 인덱스 번호가 다르기에 인덱스를 실제 지워야 함으로 -1를
+				// 해준다.
+				// 새글을 쓰고 지우고 다시 썼을 때의 치명적 오류 발생
+				// 인덱스는 남고 글번호가 안맞게 되는 상황이 발생하기 때문에 다른 방법이 필요
+				// 인덱스 기반으로 삭제하는 코드 구현 필요
+				System.out.printf("%d번 게시물을 삭제하였습니다.\n", id);
+			}
+
+			else {
 				System.out.println("존재하지 않는 명령어입니다.");
 			}
 		}
