@@ -29,6 +29,7 @@ public class Main {
 
 				int id = lastArticleId + 1;
 				lastArticleId = id;
+				
 				System.out.printf("제목 : ");
 				String title = sc.nextLine();
 				System.out.printf("내용 : ");
@@ -80,34 +81,27 @@ public class Main {
 					System.out.printf("내용 : %s\n", foundArticle.body);
 					System.out.println("-----------------------------");
 				}
-			} else if (command.startsWith("article delete")) { // 삭제 기능 구현
+			} else if (command.startsWith("article delete")) {
 
 				String[] commandBits = command.split(" ");
 
 				int id = Integer.parseInt(commandBits[2]);
 
-//				Article foundArticle = null; // 여건 이제 필요없음
-				int foundIndex = -1; // 인덱스보다 -1
+				int foundIndex = -1;
 
 				for (int i = 0; i < articles.size(); i++) {
 					Article article = articles.get(i);
 
 					if (article.id == id) {
-//						foundArticle = article; // 요건 이제 필요없음
-						foundIndex = i; // 인덱스를 i에 덮어쓰기
+						foundIndex = i;
 						break;
 					}
 				}
-				if (foundIndex == -1) { // 여기도 -1과 같다면
+				if (foundIndex == -1) {
 					System.out.printf("%d번 게시물은 존재하지 않습니다.\n", id);
 					continue;
 				}
-				articles.remove(foundIndex); // 인덱스를 삭제하기
-				// articles.remove(id - 1); // 게시물 삭제 함수, 글번호와 인덱스 번호가 다르기에 인덱스를 실제 지워야 함으로 -1를
-				// 해준다.
-				// 새글을 쓰고 지우고 다시 썼을 때의 치명적 오류 발생
-				// 인덱스는 남고 글번호가 안맞게 되는 상황이 발생하기 때문에 다른 방법이 필요
-				// 인덱스 기반으로 삭제하는 코드 구현 필요
+				articles.remove(foundIndex);
 				System.out.printf("%d번 게시물을 삭제하였습니다.\n", id);
 			}
 
