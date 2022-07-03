@@ -26,16 +26,17 @@ public class Main {
 				break;
 			}
 			if (command.equals("article write")) {
-
+				
 				int id = lastArticleId + 1;
 				lastArticleId = id;
-
+				
+				String regDate = util.getNowDateStr(); // 스테틱 메서드로 바로 사용할 수 있도록 구현
 				System.out.printf("제목 : ");
 				String title = sc.nextLine();
 				System.out.printf("내용 : ");
 				String body = sc.nextLine();
 
-				Article article = new Article(id, title, body);
+				Article article = new Article(id, regDate, title, body);
 				articles.add(article);
 
 				System.out.printf(id + "번 글이 생성되었습니다.\n");
@@ -76,7 +77,7 @@ public class Main {
 				} else {
 					System.out.println("-----------------------------");
 					System.out.printf("번호 : %d\n", foundArticle.id);
-					System.out.printf("날짜 : 2022-06-22, 12:12:12\n"); // 미구현 날짜
+					System.out.printf("날짜 : %s\n", foundArticle.regDate); // 날짜를 출력하기 위해 보완
 					System.out.printf("제목 : %s\n", foundArticle.title);
 					System.out.printf("내용 : %s\n", foundArticle.body);
 					System.out.println("-----------------------------");
@@ -118,9 +119,11 @@ class Article { // 클래스를 우선 Main에 나오도록 다시 작성 추후
 	int id;
 	String title;
 	String body;
+	String regDate; // 날짜 구현을 위한 추가
 
-	public Article(int id, String title, String body) { // new Article 할 때 실행되면서 저장된다.
+	public Article(int id, String regDate, String title, String body) {  // 날짜 구현을 위한 추가
 		this.id = id;
+		this.regDate = regDate;   // 날짜 구현을 위한 추가
 		this.title = title;
 		this.body = body;
 
