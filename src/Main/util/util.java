@@ -1,4 +1,4 @@
-package Main;
+package Main.util;  // 클래스와 패키지 분리 작업
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
